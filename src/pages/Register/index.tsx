@@ -1,33 +1,39 @@
-// Routes.tsx
 import React from "react";
+import { Card, Row, Col, Form, Input, Button, Checkbox } from "antd";
+import { useNavigate } from "react-router-dom";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import MainLayout from "../../components/layouts/MainLayout";
-import { Card, Space, Row, Col } from "antd";
-
-import { Button, Checkbox, Form, Input } from "antd";
-
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
-
-type FieldType = {
-  username?: string;
-  password?: string;
-  remember?: string;
-};
 
 const Register: React.FC = () => {
+  const navigate = useNavigate();
+
+  const onFinish = async (values: any) => {
+    const { email, password } = values;
+    const auth = getAuth();
+
+    try {
+      // Cria o usuário com e-mail e senha
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      // Navega para a página de login após o registro bem-sucedido
+      navigate("/login");
+    } catch (error: any) {
+      console.error("Erro ao criar usuário:", error.message);
+    }
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <MainLayout>
       <Row justify="center" style={{ minHeight: "100vh" }}>
         <Col>
-        <Card
-            title="Sign in to WebCars"
+          <Card
+            title="Sign up for WebCars"
             style={{ width: 400 }}
-            headStyle={{ backgroundColor: '#1890ff', color: 'white' }}
+            headStyle={{ backgroundColor: "#1890ff", color: "white" }}
             className="shadow-lg"
           >
             <Form
@@ -79,7 +85,10 @@ const Register: React.FC = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  style={{ backgroundColor: "#1890ff", borderColor: "#1890ff" }}
+                  style={{
+                    backgroundColor: "#1890ff",
+                    borderColor: "#1890ff",
+                  }}
                 >
                   Submit
                 </Button>

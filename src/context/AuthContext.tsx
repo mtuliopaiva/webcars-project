@@ -1,16 +1,17 @@
+// AuthContext.ts
+
 import { createContext, useContext, ReactNode } from 'react';
-import useAuthentication, { AuthHook } from '../hooks/useAuthentication';
 
 interface AuthContextProps {
-  auth: AuthHook;
+  auth: any;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: ReactNode; value: AuthHook }> = ({ children, value }) => {
-    return <AuthContext.Provider value={{ auth: value as any }}>{children}</AuthContext.Provider>;
-  };
-  
+export const AuthProvider: React.FC<{ children: ReactNode; value: any }> = ({ children, value }) => {
+  return <AuthContext.Provider value={{ auth: value }}>{children}</AuthContext.Provider>;
+
+};
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

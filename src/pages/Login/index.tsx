@@ -1,30 +1,26 @@
-// Routes.tsx
 import React from "react";
 import MainLayout from "../../components/layouts/MainLayout";
 import { Card, Space, Row, Col } from "antd";
 
 import { Button, Checkbox, Form, Input } from "antd";
-
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
-
-type FieldType = {
-  username?: string;
-  password?: string;
-  remember?: string;
-};
+import useAuthentication, { EmailPasswordCredentials } from "../../hooks/useAuthentication";
 
 const Login: React.FC = () => {
+  const { loading, error, signInWithEmailPassword } = useAuthentication();
+
+  const onFinish = async (values: EmailPasswordCredentials) => {
+    await signInWithEmailPassword(values);
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <MainLayout>
       <Row justify="center" style={{ minHeight: "100vh" }}>
         <Col>
-        <Card
+          <Card
             title="Sign in to WebCars"
             style={{ width: 400 }}
             headStyle={{ backgroundColor: '#1890ff', color: 'white' }}
@@ -46,7 +42,7 @@ const Login: React.FC = () => {
                 rules={[
                   {
                     type: "email",
-                    message: "The input is not valid E-mail!",
+                    message: "The input is not a valid E-mail!",
                   },
                   {
                     required: true,
@@ -80,9 +76,11 @@ const Login: React.FC = () => {
                   type="primary"
                   htmlType="submit"
                   style={{ backgroundColor: "#1890ff", borderColor: "#1890ff" }}
+                  loading={loading}
                 >
                   Submit
                 </Button>
+                {error && <div style={{ color: 'red' }}>{error}</div>}
               </Form.Item>
             </Form>
           </Card>
