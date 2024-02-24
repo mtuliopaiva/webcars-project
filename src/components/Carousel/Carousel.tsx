@@ -1,6 +1,5 @@
 import React from 'react';
 import { Carousel } from 'antd';
-import firstBanner from '../../assets/banners/firstBanner.png';
 
 const contentStyle: React.CSSProperties = {
   height: '250px',
@@ -13,7 +12,8 @@ const contentStyle: React.CSSProperties = {
 const CarouselComponent: React.FC = () => (
   <Carousel autoplay>
     <div>
-    <img src={firstBanner} alt="Imagem 1" style={{ ...contentStyle, backgroundImage: `url(${firstBanner})` }} />
+    <h3 style={contentStyle}>1</h3>
+
     </div>
     <div>
       <h3 style={contentStyle}>2</h3>

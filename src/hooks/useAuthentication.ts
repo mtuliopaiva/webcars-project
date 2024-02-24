@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import {
   getAuth,
-  signInWithEmailAndPassword as signInWithEmailAndPasswordFirebase,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword as signInWithEmailAndPasswordFirebase,
   onAuthStateChanged,
   User,
 } from 'firebase/auth';
+
+import { auth } from '../config/firebaseConfig';
 
 export interface EmailPasswordCredentials {
   email: string;
@@ -27,8 +29,6 @@ const useAuthentication = (): AuthHook => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const auth = getAuth();
-
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
@@ -37,11 +37,11 @@ const useAuthentication = (): AuthHook => {
       }
       setLoading(false);
     });
-
+  
     return () => unsubscribe();
   }, []);
 
-  const signUpWithEmailPassword = async (credentials: EmailPasswordCredentials) => {
+  const signUpWithEmailPassword: (credentials: EmailPasswordCredentials) => Promise<void> = async (credentials) => {
     const auth = getAuth();
 
     try {
@@ -52,7 +52,7 @@ const useAuthentication = (): AuthHook => {
     }
   };
 
-  const signInWithEmailPassword = async (credentials: EmailPasswordCredentials) => {
+  const signInWithEmailPassword: (credentials: EmailPasswordCredentials) => Promise<void> = async (credentials) => {
     const auth = getAuth();
     try {
       setLoading(true);
@@ -67,7 +67,7 @@ const useAuthentication = (): AuthHook => {
     }
   };
 
-  const signOut = async () => {
+  const signOut: () => Promise<void> = async () => {
     const auth = getAuth();
     try {
       await auth.signOut();
@@ -89,4 +89,3 @@ const useAuthentication = (): AuthHook => {
 };
 
 export default useAuthentication;
-

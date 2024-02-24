@@ -1,6 +1,6 @@
 import React from "react";
 import MainLayout from "../../components/layouts/MainLayout";
-import { Card, Space, Row, Col } from "antd";
+import { Card, Row, Col } from "antd";
 
 import { Button, Checkbox, Form, Input } from "antd";
 import useAuthentication, { EmailPasswordCredentials } from "../../hooks/useAuthentication";
