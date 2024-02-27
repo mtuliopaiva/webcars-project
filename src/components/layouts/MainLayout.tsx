@@ -90,7 +90,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               icon={<UserOutlined />}
             />
             <Dropdown menu={{ items }} placement="bottom" arrow>
-              <span style={{ color: "#fff", cursor:'pointer'}}>{user.email}</span>
+              <span style={{ color: "#fff", cursor:'pointer'}}>{user.displayName}</span>
             </Dropdown>
           </Space>
         )}
